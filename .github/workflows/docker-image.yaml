@@ -3,14 +3,14 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main  # Trigger on push to main branch
+      - main  # Trigger on push to the main branch
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository code
+      # Step 1: Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
@@ -18,21 +18,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # Step 3: Log in to GitHub Container Registry using PAT
+      # Step 3: Log in to GitHub Container Registry with username and PAT
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GHCR_TOKEN }}  # Using PAT stored in GitHub secrets
+          username: sataniceypz  # Replace with your GitHub username
+          password: ${{ secrets.GHCR_TOKEN }}  # The PAT stored in GitHub secrets
 
-      # Step 4: Build and push Docker image to GitHub Packages
+      # Step 4: Build and push Docker image
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest
+          tags: ghcr.io/sataniceypz/sataniceypz/izumi-render:latest  # Replace with your image name
 
-      # Step 5: Verify the image is pushed successfully (optional)
+      # Step 5: Verify image (optional)
       - name: Verify image
-        run: docker pull ghcr.io/${{ github.repository_owner }}/${{ github.repository }}:latest
+        run: docker pull ghcr.io/sataniceypz/sataniceypz/izumi-render:latest
